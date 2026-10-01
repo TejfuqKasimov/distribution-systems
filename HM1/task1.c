@@ -13,7 +13,6 @@ double rand_double() {
     return (double)rand()/(double)(RAND_MAX/2) - 4;
 }
 
-int          grid_n;
 const double xmin = -2.0, xmax = 1.0;
 const double ymin = -1.5, ymax = 1.5;
 const int    max_iter = 1000;
@@ -87,7 +86,6 @@ int main(int argc, char* argv[]) {
     pthread_t* thread_handles = malloc(thread_count * sizeof(pthread_t));
     pthread_mutex_init(&mutex, NULL);
     double need_cells = (double)npoints / 0.05;
-    grid_n = (int)ceil(sqrt(need_cells));
     for (long i = 0; i < thread_count; ++i) {
         int err = pthread_create(&thread_handles[i], NULL, routine, (void*) i);
         if (err != 0) {
@@ -118,5 +116,7 @@ int main(int argc, char* argv[]) {
     fclose(f);
 
     free (thread_handles);
+    free(ansX);
+    free(ansY);
     pthread_mutex_destroy(&mutex);
 }

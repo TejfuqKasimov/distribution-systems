@@ -4,13 +4,11 @@ import matplotlib.pyplot as plt
 
 
 def read_points(path):
-    """Читает CSV, возвращает два списка: xs и ys."""
     xs, ys = [], []
     with open(path, newline="") as f:
         reader = csv.reader(f)
-        header = next(reader, None)          # пропускаем заголовок "x,y"
+        header = next(reader, None)
         if header != ["x", "y"]:
-            # если заголовка нет — вернём его в обработку
             try:
                 xs.append(float(header[0]))
                 ys.append(float(header[1]))
@@ -30,16 +28,14 @@ def read_points(path):
 def plot(xs, ys, out_path):
     fig, ax = plt.subplots(figsize=(8, 8))
 
-    # Точки рисуем как мелкие маркеры. s=1 — размер в точках².
     ax.scatter(xs, ys, s=1, c="black", marker=".", linewidths=0)
 
-    ax.set_aspect("equal")               # 1:1 по осям — иначе форма исказится
+    ax.set_aspect("equal")
     ax.set_title(f"Множество Мандельброта ({len(xs)} точек)")
     ax.set_xlabel("Re(c)")
     ax.set_ylabel("Im(c)")
     ax.grid(True, linestyle=":", alpha=0.4)
 
-    # Классические границы bbox множества
     ax.set_xlim(-2.0, 1.0)
     ax.set_ylim(-1.5, 1.5)
 
